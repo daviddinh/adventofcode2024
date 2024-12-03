@@ -1,6 +1,5 @@
 const regex = /mul\(\d+,\d+\)|don't\(\)|do\(\)/gm
-let input = require("fs").readFileSync("./03-input.txt", "utf-8")
-let matches = [...input.matchAll(regex)]
+let matches = [...require("fs").readFileSync("./03-input.txt", "utf-8").matchAll(regex)]
 let results = []
 let includeResult = true
 matches.forEach((match) => {

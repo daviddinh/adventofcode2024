@@ -12,7 +12,7 @@ let lists = require("fs")
   .map(e => e.sort())
 
 console.log(
-  lists[0].map((e, i) => {
+  lists[0].map((e) => {
     if(lists[1].indexOf(e) !== -1){
       return e * Math.abs((lists[1].lastIndexOf(e) - lists[1].indexOf(e) + 1))
     }

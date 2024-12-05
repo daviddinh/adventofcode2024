@@ -6,15 +6,19 @@ let rules = input[0].map(e => e.split('|').map(Number))
 let updates = input[1].map(e => e.split(',').map(Number))
 let middleNumbers = []
 
+const invalidRules = (update, e) => {
+  return rules.filter((f) => (
+    (update.indexOf(f[0]) != -1) && (update.indexOf(f[1]) != -1)) && 
+    (((f.indexOf(e) == 0) && (update.indexOf(e) > update.indexOf(f[1]))) ||
+    ((f.indexOf(e) == 1) && (update.indexOf(e) < update.indexOf(f[1])))
+  ))
+}
+
 const checkValidUpdate = (update) => {
   var validUpdate = true
   update.forEach(e => {
-    let invalidRules = rules.filter((f) => (
-      (update.indexOf(f[0]) != -1) && (update.indexOf(f[1]) != -1)) && 
-      (((f.indexOf(e) == 0) && (update.indexOf(e) > update.indexOf(f[1]))) ||
-      ((f.indexOf(e) == 1) && (update.indexOf(e) < update.indexOf(f[1])))
-    ))
-    if (invalidRules.length > 0) validUpdate = false
+    let rulesToApply = invalidRules(update, e)
+    if (rulesToApply.length > 0) validUpdate = false
   })
   return validUpdate
 }
@@ -29,15 +33,14 @@ invalidUpdates.forEach((update) => {
   let validUpdate = false
   while(validUpdate == false) {
     update.forEach(e => {
-      let rulesToApply =
-        rules.filter((f) => ((update.indexOf(f[0]) != -1) && (update.indexOf(f[1]) != -1)) &&
-          (((f.indexOf(e) == 0) && (update.indexOf(e) > update.indexOf(f[1]))) ||
-          ((f.indexOf(e) == 1) && (update.indexOf(e) < update.indexOf(f[1])))))
+      let rulesToApply = invalidRules(update, e)
       if (rulesToApply.length > 0) {
-        swapElements(update, update.indexOf(rulesToApply[0][0]), update.indexOf(rulesToApply[0][1]))
+        rulesToApply.forEach(r => {
+          swapElements(update, update.indexOf(r[0]), update.indexOf(r[1]))
+        })
       }
-      validUpdate = checkValidUpdate(update)
     })
+    validUpdate = checkValidUpdate(update)
   }
   middleNumbers.push(update[Math.floor(update.length / 2)])
 })

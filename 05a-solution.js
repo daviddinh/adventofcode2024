@@ -9,7 +9,7 @@ let middleNumbers = []
 updates.forEach((update) => {
   validUpdate = true
   update.forEach(e => {
-    rulesToApply = 
+    rulesToApply =
       rules.filter((f) => ((update.indexOf(f[0]) != -1) && (update.indexOf(f[1]) != -1)) && 
       (((f.indexOf(e) == 0) && (update.indexOf(e) > update.indexOf(f[1]))) ||
       ((f.indexOf(e) == 1) && (update.indexOf(e) < update.indexOf(f[1])))))
